@@ -286,3 +286,21 @@ a {
     transform: translateY(-2px) scale(1.1);
     box-shadow: 0 5px 10px rgba(255, 255, 255, 0.4);
 }
+/* --------- SPINNING EFFECT FOR LOADING --------- */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spinning {
+    animation: spin 1s linear infinite;
+}
+
+/* This will speed up the spin as the media is loading */
+.spinning-fast {
+    animation: spin 0.3s linear infinite;
+}

@@ -22,11 +22,16 @@ function triggerHapticFeedback() {
 function preloadMedia(link) {
     const src = link.dataset.src;
     const type = link.dataset.type;
-    // placeholder is read from the HTML but not used in the preload function
-
+    
     if (mediaCache[src]) {
         return; // Already preloaded or loading
     }
+
+    // Create and display spinner
+    const spinner = document.createElement('div');
+    spinner.classList.add('spinning');
+    mediaPreview.innerHTML = ''; // Remove any previous content
+    mediaPreview.appendChild(spinner); // Show spinner while loading
 
     if (type === 'video') {
         mediaCache[src] = { element: null, status: 'loading' };
@@ -43,7 +48,20 @@ function preloadMedia(link) {
         video.addEventListener('canplaythrough', () => {
             mediaCache[src].status = 'loaded';
             mediaCache[src].element = video; 
-            // console.log(`Video loaded successfully: ${src}`);
+            mediaPreview.innerHTML = ''; // Remove spinner
+            mediaPreview.appendChild(video);
+            mediaPreview.classList.add('active');
+            video.play().catch(e => console.log('Video play failed:', e));
+        });
+
+        // Increase spinning speed as data is buffered
+        video.addEventListener('progress', () => {
+            if (video.buffered.length > 0) {
+                const buffered = video.buffered.end(0);
+                if (buffered > 0) {
+                    spinner.classList.add('spinning-fast'); // Speed up spinning
+                }
+            }
         });
 
         // 3. Add error listener
@@ -51,13 +69,24 @@ function preloadMedia(link) {
             mediaCache[src].status = 'error';
             console.error(`Error loading video: ${src}`);
         });
-        
+
         video.load();
 
     } else if (type === 'image') {
         const img = new Image();
         img.src = src;
-        mediaCache[src] = { element: img, status: 'loaded' };
+
+        img.onload = () => {
+            mediaCache[src] = { element: img, status: 'loaded' };
+            mediaPreview.innerHTML = ''; // Remove spinner
+            mediaPreview.appendChild(img);
+            mediaPreview.classList.add('active');
+        };
+
+        img.onerror = () => {
+            mediaCache[src] = { element: img, status: 'error' };
+            console.error(`Error loading image: ${src}`);
+        };
     }
 }
 
@@ -115,7 +144,6 @@ mediaLinks.forEach(link => {
         triggerHapticFeedback();
     });
 });
-
 
 // =================================================================
 // 2. THREE.JS 3D BACKGROUND
@@ -208,9 +236,7 @@ function handleOrientation(event) {
 
 if (isMobile && window.DeviceOrientationEvent) {
     window.addEventListener('deviceorientation', handleOrientation, true);
-    // console.log("Device orientation tracking enabled.");
 }
-
 
 // Animation Loop
 const clock = new THREE.Clock();
