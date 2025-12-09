@@ -7,6 +7,8 @@
     <title>Jonathan Earp</title>
     <meta name="description" content="Hub for Jonathan Earp - FPV, Research, Robotics">
     
+    <link rel="preload" href="assets/fpv-preview.mp4" as="video"> 
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,12 +16,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<link rel="preload" href="assets/fpv-preview.mp4" as="video"> 
-
-<li class="nav-item">
-    <a href="https://fpv.jonathanearp.xyz" class="nav-link" data-type="video" data-src="assets/fpv-preview.mp4" data-placeholder="assets\fpv-clip-04-poster.png">
-       </a>
-</li>
+    
     <canvas id="canvas3d"></canvas>
 
     <div id="media-preview" class="media-preview"></div>
@@ -32,7 +29,11 @@
         <nav class="hub-nav">
             <ul class="nav-list">
                 <li class="nav-item">
-                    <a href="https://fpv.jonathanearp.xyz" class="nav-link" data-type="video" data-src="assets/reel.mp4">
+                    <a href="https://fpv.jonathanearp.xyz" 
+                       class="nav-link" 
+                       data-type="video" 
+                       data-src="assets/fpv-preview.mp4" 
+                       data-placeholder="assets/fpv-clip-04-poster.png">
                        <span class="index">01</span>
                        <span class="text">FPV</span>
                     </a>
