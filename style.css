@@ -264,3 +264,25 @@ a {
         opacity: 0.6; /* Dim the spheres slightly so text pops */
     }
 }
+/* --------- ENHANCED TAP STATE FOR MOBILE --------- */
+
+/* When the user actively presses the link */
+.nav-link:active {
+    transform: scale(1.05); /* Slightly enlarge the whole link */
+}
+
+/* Make the text fully glow immediately on tap */
+.nav-link:active .text {
+    color: #fff;
+    -webkit-text-stroke: 0px;
+    text-shadow: 0 0 40px rgba(255,255,255,0.6); 
+    transition: none; /* Disable slow transition on tap for instant feedback */
+}
+
+/* Make social icons react instantly on tap */
+.social-icon:active {
+    color: #000;
+    background: #fff;
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.4);
+}
