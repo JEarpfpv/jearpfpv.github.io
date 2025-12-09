@@ -1,0 +1,266 @@
+/* --------- RESET & BASE --------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden; /* DISABLE SCROLLING */
+    height: 100vh;
+    width: 100vw;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* --------- LAYERS --------- */
+#canvas3d {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    outline: none;
+}
+
+.media-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.media-preview.active {
+    opacity: 0.6;
+}
+
+.media-preview video, 
+.media-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --------- MAIN CONTAINER --------- */
+.hub-container {
+    position: relative;
+    z-index: 10;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;
+}
+
+/* --------- HEADER --------- */
+.hub-header {
+    display: flex;
+    align-items: center;
+    /* Logo stays on left, but we can center it if you prefer */
+    justify-content: flex-start; 
+}
+
+.logo {
+    font-family: "Anton", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 1.2rem;
+    mix-blend-mode: difference;
+}
+
+/* --------- NAVIGATION (CENTER) --------- */
+.hub-nav {
+    display: flex;
+    flex-direction: column; /* Stack Links on top of Socials */
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    gap: 3rem; /* Space between List and Social Dock */
+}
+
+.nav-list {
+    list-style: none;
+    text-align: center;
+}
+
+.nav-item {
+    margin: 0.8rem 0;
+}
+
+.nav-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 1rem;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+    transform: translateX(10px);
+}
+
+.nav-link .index {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.nav-link .text {
+    font-family: "Anton", sans-serif;
+    font-size: clamp(3rem, 7vw, 5.5rem); /* Slightly smaller to fit About item */
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.25);
+    color: transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover .text {
+    color: #fff;
+    -webkit-text-stroke: 0px;
+    text-shadow: 0 0 30px rgba(255,255,255,0.4);
+}
+
+.coming-soon {
+    font-size: 0.7rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-left: 1rem;
+    transform: translateY(-1rem);
+    white-space: nowrap;
+}
+
+/* --------- SOCIAL DOCK (NEW) --------- */
+.social-dock {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.03); /* Very subtle backing */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    transition: border-color 0.3s ease;
+}
+
+.social-dock:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    color: #909090;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy transition */
+    border-radius: 50%;
+    background: transparent;
+}
+
+.social-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.social-icon:hover {
+    color: #000;
+    background: #fff;
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* --------- FOOTER --------- */
+.hub-footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .hub-container {
+        padding: 1.5rem;
+    }
+    .nav-link .text {
+        font-size: 3rem;
+    }
+    .social-dock {
+        gap: 1.5rem;
+        padding: 0.8rem 1.5rem;
+    }
+    .social-icon {
+        width: 40px;
+        height: 40px;
+    }
+}
+/* --------- MOBILE OPTIMIZATION --------- */
+@media (max-width: 768px) {
+    /* 1. Stack navigation compactly */
+    .hub-nav {
+        gap: 1.5rem;
+    }
+
+    /* 2. Smaller Text */
+    .nav-link .text {
+        font-size: 3.2rem; /* Readable size, not massive */
+        -webkit-text-stroke: 0px; /* Remove outline, fill solid white */
+        color: #fff;
+        opacity: 0.9;
+    }
+
+    .nav-link .index {
+        font-size: 0.75rem;
+    }
+
+    /* 3. Adjust Coming Soon text */
+    .coming-soon {
+        display: block; /* Move to new line on mobile */
+        margin-left: 3rem;
+        margin-top: -0.5rem;
+        transform: none;
+    }
+
+    /* 4. Social Dock - Make it stick to bottom */
+    .social-dock {
+        width: 100%;
+        max-width: 350px;
+        padding: 0.8rem;
+        background: rgba(0, 0, 0, 0.6); /* Darker bg for readability */
+        backdrop-filter: blur(10px);
+        gap: 1.5rem;
+    }
+
+    /* 5. Disable Media Preview on Mobile (Performance & UI cleaner) */
+    .media-preview {
+        display: none;
+    }
+    
+    /* 6. Ensure 3D canvas is behind everything */
+    #canvas3d {
+        opacity: 0.6; /* Dim the spheres slightly so text pops */
+    }
+}

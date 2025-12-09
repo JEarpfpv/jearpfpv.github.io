@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jonathan Earp</title>
+    <meta name="description" content="Hub for Jonathan Earp - FPV, Research, Robotics">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <canvas id="canvas3d"></canvas>
+
+    <div id="media-preview" class="media-preview"></div>
+
+    <main class="hub-container">
+        <header class="hub-header">
+            <div class="logo">Jonathan Earp</div>
+        </header>
+
+        <nav class="hub-nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="https://fpv.jonathanearp.xyz" class="nav-link" data-type="video" data-src="assets/reel.mp4">
+                       <span class="index">01</span>
+                       <span class="text">FPV</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="https://research.jonathanearp.xyz" class="nav-link" data-type="image" data-src="assets/research-preview.jpg">
+                       <span class="index">02</span>
+                       <span class="text">RESEARCH</span>
+                       <span class="coming-soon">(Coming Soon)</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="https://robotics.jonathanearp.xyz" class="nav-link" data-type="image" data-src="assets/robotics-preview.jpg">
+                       <span class="index">03</span>
+                       <span class="text">ROBOTICS</span>
+                       <span class="coming-soon">(Coming Soon)</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link" data-type="image" data-src="assets/about-preview.jpg">
+                       <span class="index">04</span>
+                       <span class="text">ABOUT</span>
+                       <span class="coming-soon">(Coming Soon)</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="social-dock">
+                <a href="https://www.instagram.com/jonathanearp.1/" target="_blank" class="social-icon" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+
+                <a href="https://www.linkedin.com/in/jonathan-earp-25905026b/" target="_blank" class="social-icon" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                </a>
+
+                <a href="https://x.com/JonathanEarp_" target="_blank" class="social-icon" aria-label="X (Twitter)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </a>
+
+                <a href="mailto:jonathan.earp55@email.com" class="social-icon" aria-label="Email">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+
+        <footer class="hub-footer">
+            <p>&copy; 2025 Jonathan Earp</p>
+        </footer>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
