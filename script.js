@@ -1,44 +1,104 @@
-// --------- 1. HOVER EFFECTS FOR LINKS ---------
-const links = document.querySelectorAll('.nav-link');
-const previewContainer = document.getElementById('media-preview');
+// Global variable to store preloaded assets
+const mediaCache = {};
+const mediaPreview = document.getElementById('media-preview');
+const mediaLinks = document.querySelectorAll('.nav-link');
 
-links.forEach(link => {
+// --- NEW PRE-LOAD FUNCTION ---
+function preloadMedia(link) {
+    const src = link.dataset.src;
+    const type = link.dataset.type;
+    const placeholder = link.dataset.placeholder;
+
+    if (mediaCache[src]) {
+        return; // Already preloaded or loading
+    }
+
+    if (type === 'video') {
+        mediaCache[src] = { element: null, status: 'loading' };
+
+        // 1. Create and start loading the video element
+        const video = document.createElement('video');
+        video.src = src;
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.preload = 'auto'; // Important for pre-loading
+
+        // 2. Add loading listeners
+        video.addEventListener('canplaythrough', () => {
+            mediaCache[src].status = 'loaded';
+            // Store the loaded element
+            mediaCache[src].element = video; 
+            console.log(`Video loaded successfully: ${src}`);
+        });
+
+        // 3. Add error listener
+        video.addEventListener('error', () => {
+            mediaCache[src].status = 'error';
+            console.error(`Error loading video: ${src}`);
+        });
+        
+        // Start load
+        video.load();
+
+    } else if (type === 'image') {
+        // Standard image loading remains quick
+        const img = new Image();
+        img.src = src;
+        mediaCache[src] = { element: img, status: 'loaded' };
+    }
+}
+
+// --- NEW SHOW/HIDE LOGIC ---
+mediaLinks.forEach(link => {
+    // Start preloading videos immediately after the DOM loads
+    if (link.dataset.type === 'video') {
+        preloadMedia(link);
+    }
+    
     link.addEventListener('mouseenter', () => {
-        const type = link.getAttribute('data-type');
-        const src = link.getAttribute('data-src');
-
-        // Clear previous content
-        previewContainer.innerHTML = '';
+        const src = link.dataset.src;
+        const type = link.dataset.type;
+        const placeholder = link.dataset.placeholder;
 
         if (type === 'video') {
-            const video = document.createElement('video');
-            video.src = src;
-            video.muted = true;
-            video.loop = true;
-            video.autoplay = true;
-            video.playsInline = true;
-            previewContainer.appendChild(video);
-        } else {
-            const img = document.createElement('img');
-            img.src = src;
-            previewContainer.appendChild(img);
-        }
+            const cachedMedia = mediaCache[src];
+            
+            if (cachedMedia && cachedMedia.status === 'loaded') {
+                // If video is loaded, play it
+                mediaPreview.innerHTML = '';
+                mediaPreview.appendChild(cachedMedia.element);
+                mediaPreview.classList.add('active');
+                cachedMedia.element.play().catch(e => console.log('Video play failed:', e));
 
-        // Show container
-        previewContainer.classList.add('active');
+            } else {
+                // If video is still loading, show a quick placeholder image
+                mediaPreview.innerHTML = `<img src="${placeholder}" alt="Loading Preview" style="width: 100%; height: 100%; object-fit: cover;">`;
+                mediaPreview.classList.add('active');
+            }
+
+        } else if (type === 'image') {
+            // Existing image logic (which is fast)
+            const img = mediaCache[src] ? mediaCache[src].element : new Image();
+            if (!mediaCache[src]) {
+                 img.src = src;
+                 mediaCache[src] = { element: img, status: 'loaded' };
+            }
+            mediaPreview.innerHTML = '';
+            mediaPreview.appendChild(img);
+            mediaPreview.classList.add('active');
+        }
     });
 
     link.addEventListener('mouseleave', () => {
-        previewContainer.classList.remove('active');
-        // Optional: clear HTML after transition for performance
-        setTimeout(() => {
-            if (!previewContainer.classList.contains('active')) {
-                previewContainer.innerHTML = '';
-            }
-        }, 400);
+        mediaPreview.classList.remove('active');
+        // Stop the video element when hiding
+        const cachedMedia = mediaCache[link.dataset.src];
+        if (cachedMedia && cachedMedia.status === 'loaded' && cachedMedia.element.tagName === 'VIDEO') {
+            cachedMedia.element.pause();
+        }
     });
 });
-
 
 // --------- 2. THREE.JS 3D BACKGROUND ---------
 
